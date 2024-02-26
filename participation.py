@@ -24,3 +24,23 @@ print("months according to their participation\n" + str(df["Form Times"].dt.mont
 # note: certified means completed 10 things to help the environment and signed up to get a prize
 # https://sites.google.com/umd.edu/greenterp/home holds a lot of information for this program
 
+certified = df[df["GT_Participation"] == "Yes- Certified and received prize"]
+print('ratio of people certified to people who signed up (all years):' , len(certified)/len(df))
+
+# looking into how many frats and sororities participate in the program
+
+greeklife = df[df["Form_Access"] == "Fraternity/Sorority Chapter Meeting"]
+year2023 = df[df["AY"] == "2022-2023"]
+year2022 = df[df["AY"] == "2021-2022"]
+year2018 = df[df["AY"] == "2018-2019"]
+greeklife2023 = year2023[year2023["Form_Access"] == "Fraternity/Sorority Chapter Meeting"]
+print('greek life ratio in 2023:' , len(greeklife2023)/int(573))
+greeklife2022 = year2022[year2022["Form_Access"] == "Fraternity/Sorority Chapter Meeting"]
+print('greek life ratio in 2022:' , len(greeklife2022)/int(3205))
+greeklife2018 = year2018[year2018["Form_Access"] == 'Fraternity/Sorority Chapter Meeting']
+print('greek life ratio in 2018:' , len(greeklife2018)/int(4016))
+
+# seeing who participates the most, off campus or on campus
+
+housing = df[df["Housing"] == "On Campus (including South Campus Commons)"]
+print(len(housing))
