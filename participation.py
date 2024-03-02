@@ -23,6 +23,7 @@ print('2022-2023 participants: 573')
 # seeing when people sign up the most (trends according to holidays/months)
 df["Form Times"] = pd.to_datetime(df["Timestamp"], errors='coerce').dt.tz_localize(None)
 print("months according to their participation\n" + str(df["Form Times"].dt.month.value_counts()))
+monthschart = df["Form Times"].dt.month.value_counts().plot(kind="bar")
 
 # finding the ratio of how many people are certified to how many people signed up
 # note: certified means completed 10 things to help the environment and signed up to get a prize
