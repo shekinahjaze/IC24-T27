@@ -4,9 +4,13 @@
 
 import pandas as pd
 import datetime
+import plotly.express as px
+import plotly.graph_objects as go
+import numpy as np
 
 # Looking for how many total participants for all years of the program
 df = pd.read_csv('Data_Level3_GreenTerp - Cleaned.csv')
+energydf = pd.read_csv("Data_All_Buildings.csv")
 print('total participants:' , len(df))
 
 # splitting up the participation based on the years
@@ -49,3 +53,18 @@ print('ratio of on campus housing to total participants:' , len(housing)/len(df)
 
 halls = df["Res-Hall"].value_counts()
 print(halls)
+
+lotsofenergy = energydf[(energydf["Type"] == "Residential") & (energydf["Total"] != "0")]
+chartdf = lotsofenergy[["Name" , "Total"]]
+chartdf["Total"] = chartdf["Total"].str.replace(',','').astype(int)
+chartdf = chartdf.sort_values(["Total"] , ascending=False)
+print(chartdf)
+fig = px.histogram(chartdf[0:10], x="Name",y="Total",color="Name",category_orders=dict(chartdf["Name"]),barmode='group',width=1000,height=600,color_discrete_map={"Oakland Hall" : "#6948A3", "Prince Frederick Hall" : "#BA98F5", "Bel Air Hall" : "#9AE69C", "Elkton Hall" : "#8CD18E", "Denton Hall" : "#3E8241", "La Plata Hall" : "#6948A3", "Cumberland Hall" : "#BA98F5", "Hagerstown Hall" : "#9AE69C", "Ellicott Hall" : "#8CD18E", "Easton Hall" : "#3E8241"})
+fig.update_layout(title="Top 10 Resident Halls with Most Energy Usage",xaxis_title="Resident Hall",yaxis_title="Total Energy Used (kBtu)")
+fig.update_layout({'plot_bgcolor' : 'rgba(0,0,0,0)', 'paper_bgcolor' : 'rgba(0,0,0,0)'})
+fig.show()
+
+fig2 = px.histogram(chartdf[-10:], x="Name",y="Total",color="Name",category_orders=dict(chartdf["Name"]),barmode='group',width=1000,height=600,color_discrete_map={"Montgomery Hall" : "#6948A3", "Leonardtown 243" : "#BA98F5", "St Marys Hall" : "#9AE69C", "Washington Hall" : "#8CD18E", "Baltimore Hall" : "#3E8241", "Garrett Hall" : "#6948A3", "Frederick Hall" : "#BA98F5", "Howard Hall" : "#9AE69C", "Kent Hall" : "#8CD18E", "Charles Hall" : "#3E8241"})
+fig2.update_layout(title="Top 10 Resident Halls with Least Energy Usage",xaxis_title="Resident Hall",yaxis_title="Total Energy Used (kBtu)")
+fig2.update_layout({'plot_bgcolor' : 'rgba(0,0,0,0)', 'paper_bgcolor' : 'rgba(0,0,0,0)'})
+fig2.show()
